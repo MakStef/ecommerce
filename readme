@@ -1,0 +1,5 @@
+# Start
+
+To start using this repository is essentional to add `.env` file which will contain `DEBUG` and `SECRET_KEY`.
+
+`.env` file must be contained in the same directory as `manage.py`.
