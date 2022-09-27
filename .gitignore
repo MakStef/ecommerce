@@ -1,0 +1,4 @@
+.env
+.prettierignore
+media/*
+db.sqlite3
