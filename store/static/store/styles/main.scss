@@ -1,0 +1,25 @@
+// ================= Import fonts =================
+// Montserrat family
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat/Montserrat-Medium.ttf") format("truetype");
+    font-weight: medium;
+}
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat/Montserrat-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+}
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat/Montserrat-Bold.ttf") format("truetype");
+    font-weight: bold;
+}
+
+// ================= Import styles =================
+@import "null.css", "multipurpose.scss";
+
+// ================= Styles =================
+body {
+    font-family: "Montserrat";
+}

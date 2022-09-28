@@ -1,0 +1,9 @@
+{% extends "store/base.html" %}
+{% load static sass_tags %}
+{% block title %}Title{% endblock title %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% sass_src 'store/styles/homepage.scss' %}">
+{% endblock extra_head %}
+{% block body %}
+<h1>Example</h1>
+{% endblock body %}

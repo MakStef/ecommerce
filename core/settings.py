@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'fontawesomefree',
+    'sass_processor',
 
     'store',
 
@@ -132,6 +133,17 @@ MEDIA_ROOT = BASE_DIR.joinpath('media')
 
 STATICFILES_DIR = [
 ]
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+]
+
+
+# Set SASS preprocessor directory
+
+SASS_PROCESSOR_ROOT = STATIC_ROOT
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
