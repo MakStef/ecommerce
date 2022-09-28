@@ -1,4 +1,6 @@
 .env
 .prettierignore
+*.css
+*.css.map
 media/*
 db.sqlite3
