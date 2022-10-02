@@ -1,9 +1,74 @@
 {% extends "store/base.html" %}
 {% load static sass_tags %}
-{% block title %}Title{% endblock title %}
+{% block title %}Homepage{% endblock title %}
 {% block extra_head %}
+    <!-- Extra head tags  -->
     <link rel="stylesheet" href="{% sass_src 'store/styles/homepage.scss' %}">
 {% endblock extra_head %}
 {% block body %}
-<h1>Example</h1>
+    <!-- Wrapper content -->
+    {% include "store/header.html" %}
+    <main class="content">
+    </main> 
+    {% include "store/footer.html" %}    
+
+    <template id="product-card-template">
+        <div class="product-card">
+            <div class="product-card__inner">
+                <a href="#" class="product-card__image">
+                    <img src="{% static 'store/images/example.png' %}" alt="product-name">
+                </a>
+                <div class="product-card__description">
+                    <div class="product-card__description-upper column">
+                        <div class="product-card__row_title product-card__row row">
+                            <h2></h2>
+                        </div>
+                        <div class="product-card__row_stats product-card__row row">
+                            <div class="product-card__size">
+                                <h3></h3>
+                            </div>
+                            <div class="product-card__materials">
+                                <h3></h3>
+                            </div>
+                        </div>
+                        <div class="product-card__row_feedback product-card__row row">
+                            <div class="product-card__rating row pushable">
+                                <button class="rate bg-white">
+                                    <img src="{% static 'store/images/icons/star-icon.svg' %}" alt="rating-star">
+                                </button>
+                                <button class="rate bg-white">
+                                    <img src="{% static 'store/images/icons/star-icon.svg' %}" alt="rating-star">
+                                </button>
+                                <button class="rate bg-white">
+                                    <img src="{% static 'store/images/icons/star-icon.svg' %}" alt="rating-star">
+                                </button>
+                                <button class="rate bg-white">
+                                    <img src="{% static 'store/images/icons/halfstar-icon.svg' %}" alt="rating-star">
+                                </button>
+                                <button class="rate bg-white">
+                                    <img src="{% static 'store/images/icons/emptystar-icon.svg' %}" alt="rating-star">
+                                </button>
+                            </div>
+                            <div class="product-card__count">
+                                <h3></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="product-card__description-separator">
+                    <div class="product-card__description-lower column">
+                        <div class="product-card__row_composition product-card__row row">
+                            <div class="product-card__price"></div>
+                            <button class="compare-btn pushable bg-white"><img src="{% static 'store/images/icons/comparison-icon.svg' %}" alt="comparision icon"></button>
+                            <div class="favourite-toggler">
+                                <button onclick="this.parentElement.classList.toggle('toggled');" class="favourite-n"><img src="{% static 'store/images/icons/favourite-icon.svg' %}" alt="favorite toggle - no" class="bg-white"></button>
+                                <button onclick="this.parentElement.classList.toggle('toggled');" class="favourite-y"><img src="{% static 'store/images/icons/favourite_toggled-icon.svg' %}" alt="favorite toggled - yes" class="bg-white"></button>
+                            </div>
+                        </div>
+                        <button class="btn-orange pushable">Add to the cart <img src="{% static 'store/images/icons/cart-icon.svg' %}" alt="cart-icon"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script src="{% static 'store/scripts/homepage.js' %}"></script>
 {% endblock body %}

@@ -1,0 +1,287 @@
+// ================= Mixins =================
+@mixin adaptiv-value($property, $startSize, $minSize, $type) {
+    $addsize: $startSize - $minSize;
+    @if $type==1 {
+        // Only when smaller than container
+        #{$property}: $startSize + px;
+        @media (max-width: #{$maxWidthContainer + px}) {
+            #{$property}: calc(
+                #{$minSize + px} + #{$addsize} *
+                    ((100vw - 320px) / #{$maxWidthContainer - 320})
+            );
+        }
+    } @else if $type==2 {
+        // Only when bigger than container
+        #{ $property}: $startSize + px;
+        @media (min-width: #{$maxWidthContainer + px}) {
+            #{$property}: calc(
+                #{$minSize + px} + #{$addsize} *
+                    ((100vw - 320px) / #{$maxWidth - 320})
+            );
+        }
+    } @else {
+        // Always
+        #{$property}: calc(
+            #{$minSize +
+                px} +
+                #{$addsize} *
+                ((100vw - 320px) / #{$maxWidth - 320})
+        );
+    }
+}
+
+// ================= Functions =================
+@function rem($value) {
+    $remValue: ($value / 16) + rem;
+    @return $remValue;
+}
+
+// ================= Styles =================
+// Elements
+.bg-white {
+    background: #fff;
+}
+.invisible {
+    opacity: 0;
+}
+.link {
+    position: relative;
+    color: inherit;
+    &:hover {
+        color: #e8aa31;
+        &::after {
+            width: 100%;
+        }
+    }
+
+    &::after {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        transition: width 0.2s;
+        display: block;
+        left: 0;
+        bottom: 0;
+        translate: 0 6px;
+        width: 0;
+        height: 1px;
+        background-color: #e8aa31;
+    }
+
+    &.active {
+    }
+}
+.btn-orange {
+    padding: 8px;
+    color: #141414;
+    font-weight: 600;
+    display: block;
+    background-color: #e8aa31;
+    height: 50px;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px 0 rgba(#000, 0.5);
+    font-size: $font-size + px;
+    transition: 0.2s;
+
+    img {
+        filter: brightness(0.08);
+        height: ($font-size + ($font-size * 0.5)) + px;
+    }
+
+    &:hover {
+        box-shadow: 0 4px 20px 0 rgba(#e8aa31, 1);
+    }
+}
+.pushable {
+    transition: all 0.1s;
+    &:active {
+        scale: 0.9;
+    }
+}
+.column {
+    display: flex;
+    flex-direction: column;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+}
+.circle {
+    border-radius: 50%;
+    aspect-ratio: 1;
+}
+
+// Blocks
+.product-card {
+    @include adaptiv-value(width, 375, 290, 1);
+    @include adaptiv-value(height, 600, 575, 1);
+    color: $main-color;
+
+    &__inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    &__image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: rem(16) rem(36) rem(24) rem(36);
+        background-color: inherit;
+        height: 49.17%;
+
+        img {
+            max-height: 100%;
+            overflow: hidden;
+            object-fit: cover;
+            object-position: center center;
+        }
+    }
+    &__description {
+        width: 100%;
+        height: 50.83%;
+        padding: rem(16) rem(16) rem(24) rem(16);
+
+        &-upper {
+            flex: 1 1 auto;
+            line-height: rem(34);
+        }
+        &-separator {
+            flex: 0 0 1px;
+            height: 1px;
+            width: 100%;
+            margin: rem(20) 0;
+            background-color: $main-color;
+        }
+        &-lower {
+            flex: 1 1 auto;
+            gap: rem(24);
+        }
+    }
+    &__row {
+        width: 100%;
+        flex: 1 0 auto;
+        justify-content: space-between;
+        align-items: center;
+
+        &_title {
+            font-size: rem(20);
+            font-weight: 600;
+
+            h2 {
+                font-weight: 600;
+            }
+        }
+        &_stats {
+            font-size: rem(16);
+            color: #ababab;
+        }
+        &_feedback {
+            font-size: rem(16);
+            color: #ababab;
+        }
+        &_composition {
+            justify-content: flex-end;
+            gap: rem(12);
+
+            .favourite-toggler {
+                cursor: default;
+                position: relative;
+                width: rem(28);
+                aspect-ratio: 28 /25;
+
+                &.toggled {
+                    .favourite-n {
+                        scale: 0;
+                    }
+                    .favourite-y {
+                        scale: 1;
+                    }
+                }
+            }
+            .favourite-n,
+            .favourite-y {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .favourite-n {
+                transition: all 0.25s, scale 0.25s;
+                transition-delay: 0s, 0.25s;
+            }
+            .favourite-y {
+                transition: 0.25s;
+                scale: 0;
+            }
+        }
+    }
+    &__size {
+    }
+    &__materials {
+    }
+    &__rating {
+        gap: rem(8);
+        align-items: center;
+    }
+    &__count {
+    }
+    &__price {
+        margin-right: auto;
+    }
+}
+.load {
+    background-color: #061e5e2f;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+
+    &__container {
+        width: rem(300);
+        height: rem(300);
+        position: relative;
+    }
+    &__ring {
+        position: absolute;
+        width: rem(150);
+        border-top: 4px solid var(--circle-color);
+        border-left: 4px solid var(--circle-color);
+        animation: rotate 4s linear infinite;
+        top: 50%;
+        left: 50%;
+
+        &_green {
+            --circle-color: #34956d;
+            --start-pos: 270deg;
+            translate: -50% -100%;
+        }
+        &_orange {
+            --circle-color: #e8aa31;
+            --start-pos: 180deg;
+            translate: -10% -50%;
+        }
+        &_black {
+            --circle-color: #141414;
+            --start-pos: 90deg;
+            translate: -90% -50%;
+        }
+    }
+}
+
+// Animations
+@keyframes rotate {
+    from {
+        rotate: var(--start-pos);
+    }
+    to {
+        rotate: calc(var(--start-pos) + 360deg);
+    }
+}
