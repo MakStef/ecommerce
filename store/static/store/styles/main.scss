@@ -46,7 +46,8 @@ body {
     transition: opacity 0.2s;
 }
 .load {
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, hidden 0s;
+    transition-delay: 0s, 0.2s;
 }
 .content {
     @include adaptiv-value(width, 1760, 290, 1);

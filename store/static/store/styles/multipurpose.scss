@@ -44,6 +44,9 @@
 .invisible {
     opacity: 0;
 }
+.hidden {
+    visibility: hidden;
+}
 .link {
     position: relative;
     color: inherit;
@@ -227,6 +230,11 @@
     &__rating {
         gap: rem(8);
         align-items: center;
+        pointer-events: none;
+
+        button.rate {
+            pointer-events: visible;
+        }
     }
     &__count {
     }

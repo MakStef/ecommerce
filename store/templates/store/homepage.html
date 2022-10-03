@@ -34,22 +34,22 @@
                         <div class="product-card__row_feedback product-card__row row">
                             <div class="product-card__rating row pushable">
                                 <button class="rate bg-white">
-                                    <img src="{% static 'store/images/icons/star-icon.svg' %}" alt="rating-star">
+                                    <img class="rating-star" src="{% static 'store/images/icons/emptystar-icon.svg' %}" alt="rating-star">
                                 </button>
                                 <button class="rate bg-white">
-                                    <img src="{% static 'store/images/icons/star-icon.svg' %}" alt="rating-star">
+                                    <img class="rating-star" src="{% static 'store/images/icons/emptystar-icon.svg' %}" alt="rating-star">
                                 </button>
                                 <button class="rate bg-white">
-                                    <img src="{% static 'store/images/icons/star-icon.svg' %}" alt="rating-star">
+                                    <img class="rating-star" src="{% static 'store/images/icons/emptystar-icon.svg' %}" alt="rating-star">
                                 </button>
                                 <button class="rate bg-white">
-                                    <img src="{% static 'store/images/icons/halfstar-icon.svg' %}" alt="rating-star">
+                                    <img class="rating-star" src="{% static 'store/images/icons/emptystar-icon.svg' %}" alt="rating-star">
                                 </button>
                                 <button class="rate bg-white">
-                                    <img src="{% static 'store/images/icons/emptystar-icon.svg' %}" alt="rating-star">
+                                    <img class="rating-star" src="{% static 'store/images/icons/emptystar-icon.svg' %}" alt="rating-star">
                                 </button>
                             </div>
-                            <div class="product-card__count">
+                            <div class="product-card__rate-count">
                                 <h3></h3>
                             </div>
                         </div>
@@ -57,7 +57,9 @@
                     <hr class="product-card__description-separator">
                     <div class="product-card__description-lower column">
                         <div class="product-card__row_composition product-card__row row">
-                            <div class="product-card__price"></div>
+                            <div class="product-card__price">
+                                <h3></h3>
+                            </div>
                             <button class="compare-btn pushable bg-white"><img src="{% static 'store/images/icons/comparison-icon.svg' %}" alt="comparision icon"></button>
                             <div class="favourite-toggler">
                                 <button onclick="this.parentElement.classList.toggle('toggled');" class="favourite-n"><img src="{% static 'store/images/icons/favourite-icon.svg' %}" alt="favorite toggle - no" class="bg-white"></button>
