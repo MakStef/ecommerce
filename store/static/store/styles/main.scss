@@ -26,16 +26,20 @@ $maxWidthContainer: 1760;
 }
 
 // ================= Import styles =================
-@import "null.css", "multipurpose.scss";
+@import "null.css", "multipurpose.scss", "header.scss";
 
 // ================= Styles =================
+:root {
+    --main-color: #fff;
+    --secondary-color: #141414;
+    --orange-color: #e8aa31;
+}
 html,
 body {
     width: 100%;
     height: 100%;
     font-family: "Montserrat";
     font-weight: 600;
-    // background-color: #141414;
 }
 .wrapper {
     width: 100%;

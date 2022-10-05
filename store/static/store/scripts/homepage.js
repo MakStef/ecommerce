@@ -93,15 +93,15 @@ function appendProductCard(container, product) {
 
     container.appendChild(card)
 }
-let maCont = document.querySelector('.content')
+let maCont = document.querySelector('.content > .row')
 let maObj = {
     'image_source' : "store/images/example.png",
     'title' : "Example",
-    'size' : "24x19",
+    'size' : "24x7x5",
     'materials' : "Material",
     'rating' : 5,
     'rate_count' : 20,
-    'price' : "128.99",
+    'price' : 128.99,
 }
 
-appendProductCard(maCont, maObj)
+// appendProductCard(maCont, maObj)

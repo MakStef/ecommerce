@@ -1,0 +1,87 @@
+{% load static %}
+<header class="page-header column">
+    <section class="page-header__row_black page-header__row row">
+        <nav class="page-header__navigation row">
+            <a href="#" class="link">
+                <h1>About us</h1>
+            </a>
+            <a href="#" class="link">
+                <h1>Payment and delivery</h1>
+            </a>
+            <a href="#" class="link">
+                <h1>News board</h1>
+            </a>
+            <a href="#" class="link">
+                <h1>Contacts</h1>
+            </a>
+        </nav>
+        <div class="page-header__personal-profile row">
+            <a href="#" class="pushable row">
+                <img src="{% static 'store/images/icons/user-icon.svg' %}" alt="profile account" class="profile-icon profile-icon_white">
+                <h1>Personal account</h1>
+            </a>
+        </div>
+    </section>
+    <section class="page-header__row_white page-header__white page-header__row row">
+        <div class="page-header__white-left row">
+            <div class="page-header__logo">
+                <a href="/">
+                    <img src="{% static 'store/images/logo.svg' %}" alt="ZLATMAX logo">
+                </a>
+            </div>
+            <label class="page-header__product-search-container row" for="search-products">
+                <img src="{% static 'store/images/icons/dandruff-icon.svg' %}" alt="product search icon">
+                <input 
+                    type="text" id="search-products" 
+                    class="product-search page-header__product-search" 
+                    placeholder="Search for product"
+                    list="product-search-suggestions"
+                />
+                <datalist id="product-search-suggestions">
+                    <option value="hey" for="search-products">hey</option>
+                </datalist>
+            </label>
+        </div>
+        <div class="page-header__white-right row">
+            <ul class="page-header__actions row">
+                <li class="page-header__action_location page-header__action row">
+
+                    <a target="_blank" href="https://goo.gl/maps/XaNopbtwZVugYkv99"><img class="location" src="{% static 'store/images/icons/location-icon.svg' %}" alt="location icon"></a>
+                    <h1 class="city"><a target="_blank" href="https://goo.gl/maps/XaNopbtwZVugYkv99">Berlin</a></h1>
+                </li>
+                <li class="page-header__action_phone page-header__action column">
+                    <p class="number">+49 152 901820</p>
+                    <p class="order-it"><a href="tel:+49152901820">Order by call</a></p>
+                </li>
+                <li class="page-header__action_buttons page-header__action row">
+                    <button class="pushable favourite-btn"></button>
+                    <button class="pushable cart-btn" purchase-count="0"></button>
+                    <div class="column">
+                        <p class="summary"><span id="purchase-summary">8</span>$</p>
+                        <a href="#" class="commiting">Commit purchase</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="page-header__row_black page-header__row row">
+        <ul class="page-header__categories row">
+            <li class="page-header__category">
+                <h1><a href="/" class="link">Knives catalogue</a></h1>
+            </li>
+            <li class="page-header__category">
+                <h1><a href="/" class="link">Edged weapon</a></h1>
+            </li>
+            <li class="page-header__category">
+                <h1><a href="/" class="link">Souvenir production</a></h1>
+            </li>
+            <li class="page-header__category">
+                <h1><a href="/" class="link">Armytek flashlights</a></h1>
+            </li>
+            <li class="page-header__category">
+                <h1><a href="/" class="link">Accessories</a></h1>
+            </li>
+
+        </ul>
+    </section>
+</header>
