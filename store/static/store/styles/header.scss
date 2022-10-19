@@ -1,6 +1,6 @@
 .page-header {
     width: 100%;
-    &__row {
+    &__floor {
         @include adaptiv-value(padding-top, 20, 16, 1);
         @include adaptiv-value(padding-bottom, 20, 16, 1);
         @include adaptiv-value(padding-left, 128, 20, 1);
