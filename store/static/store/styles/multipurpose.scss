@@ -78,7 +78,7 @@
     position: relative;
     color: inherit;
     &:hover {
-        color: #e8aa31;
+        color: var(--orange-color);
         &::after {
             width: 100%;
         }
@@ -95,7 +95,7 @@
         bottom: 0;
         width: 0;
         height: 1px;
-        background-color: #e8aa31;
+        background-color: var(--orange-color);
     }
 }
 .btn-orange {
@@ -103,7 +103,7 @@
     color: #141414;
     font-weight: 600;
     display: block;
-    background-color: #e8aa31;
+    background-color: var(--orange-color);
     height: 50px;
     border-radius: 4px;
     box-shadow: 0 4px 20px 0 rgba(#000, 0.5);
@@ -116,7 +116,7 @@
     }
 
     &:hover {
-        box-shadow: 0 4px 20px 0 rgba(#e8aa31, 1);
+        box-shadow: 0 4px 20px 0 rgba(var(--orange-color), 1);
     }
 }
 .pushable {
@@ -303,7 +303,7 @@
             translate: -50% -100%;
         }
         &_orange {
-            --circle-color: #e8aa31;
+            --circle-color: var(--orange-color);
             --start-pos: 180deg;
             translate: -10% -50%;
         }
@@ -336,5 +336,13 @@
     }
     100% {
         translate: var(--start-posX) var(--start-posY);
+    }
+}
+@keyframes appear {
+    from {
+        opacity: var(--initial-opacity);
+    }
+    to {
+        opacity: var(--final-opacity);
     }
 }

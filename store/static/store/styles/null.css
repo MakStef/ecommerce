@@ -20,6 +20,10 @@ a:active {
     outline: none;
 }
 
+summary {
+    cursor: pointer;
+}
+
 nav,
 footer,
 header,
