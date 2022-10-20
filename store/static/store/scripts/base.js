@@ -16,7 +16,7 @@ const toggleNewsletter = (toggler) => {
     sign.classList.toggle('toggled');
     unsign.classList.toggle('toggled');
     
-    let toChange = (toggler.parentNode.parentNode.querySelector('.page-footer__item-link a')) ? toggler.parentNode.parentNode.querySelector('.page-footer__item-link a') : undefined;
+    let toChange = (toggler.parentNode.parentNode.parentNode.querySelector('.page-footer__item-link a')) ? toggler.parentNode.parentNode.parentNode.querySelector('.page-footer__item-link a') : undefined;
     if (unsign.classList.contains('toggled')) {
         toChange.innerText = 'Sign up now!'
     }
