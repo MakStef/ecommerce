@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'sass_processor',
 
+    'accounts',
     'store',
 
     'django_cleanup.apps.CleanupConfig',
