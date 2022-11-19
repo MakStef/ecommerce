@@ -1,0 +1,21 @@
+{% extends 'accounts/base.html' %}
+{% load static sass_tags %}
+{% block title %}Change Email{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% sass_src 'accounts/styles/change_password.scss' %}">
+{% endblock head %}
+{% block body %}
+    <div class="wrapper column">
+        <main class="case-form column flex-center">
+            <h1 class="form-header">Change Email</h1>
+            <form class="form form_login column flex-center" id="change_email-form" action="{% url 'accounts:change_email' %}" method="POST">
+                {% csrf_token %}
+                <input class="input_password" type="password" placeholder="Old password" name="password" 
+                pattern="[a-zA-Z0-9_+&.,-]{8,50}" />
+                <input class="input_email" type="email" placeholder="New email" name="email_new" />
+                
+                <input class="pushable pointer" type="submit" value="Change Password" name="register" />
+            </form>
+        </main>
+    </div>
+{% endblock body %}

@@ -69,4 +69,16 @@ class ProductActionView(View):
                 print('Uncorrect action on', request.get_full_path())
         return redirect('store:homepage')
 
-# Function Based Views
+
+class ProductView(View):
+    pass
+
+
+class SearchView(View):
+    pass
+
+
+class FilterView(View):
+    pass
+
+    # Function Based Views

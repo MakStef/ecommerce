@@ -1,0 +1,21 @@
+{% extends "accounts/base.html" %}
+{% load static sass_tags %}
+{% block title %}Login{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% sass_src 'accounts/styles/login.scss' %}">
+{% endblock head %}
+{% block body %}
+    <div class="wrapper column">
+        <main class="case-form column flex-center">
+            <h1 class="form-header">Login or <a class="settings-link" href="{% url 'accounts:register' %}">register new account</a></h1>
+            <form class="form form_login column flex-center" id="login-form" action="{% url 'accounts:login' %}" method="POST">
+                {% csrf_token %}
+                <input class="input input_text" type="text" placeholder="Username" name="username" />
+                <input class="input input_password" type="password" placeholder="Password" name="password" />
+                {% if failed %}<h1 class="hint">Username or password does not match, try again</h1>{% endif %}
+                <a href="{% url 'accounts:forgot_password' %}" class="hint">forgot your password?</a>
+                <input class="pushable pointer" type="submit" value="Login" />
+            </form>
+        </main>
+    </div>
+{% endblock body %}

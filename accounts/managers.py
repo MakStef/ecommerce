@@ -5,15 +5,16 @@ from store.models import Favourite, Cart
 # Create your managers here
 class AccountManager(BaseUserManager):
     """
-    Custom user model manager with ability to create users with custom 
-    attributes and permissions.
+    Custom user model manager with ability to create users with Favourite and Cart fields
     """
 
-    def create_user(self, username, email, password, **extra_fields):
+    def create_user(self, username, email, password=None, **extra_fields):
         """
         Create user with unique favourite and cart
         """
-        user = super().create_user(self, username, email, password, **extra_fields)
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
         user_fav = Favourite()
         user_cart = Cart()
         user_fav.save()

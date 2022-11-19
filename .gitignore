@@ -2,5 +2,7 @@
 .prettierignore
 *.css
 *.css.map
+*.pyc
+*.cpython.pyc
 media/*
 db.sqlite3

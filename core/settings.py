@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'sass_processor',
 
-    'accounts',
     'store',
+    'accounts',
 
     'django_cleanup.apps.CleanupConfig',
 ]
@@ -72,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'store.context_processors.get_supercategories_to_context',
             ],
         },
     },
@@ -159,3 +160,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = environ.get('EMAIL_HOST_PASSWORD')
+
+#  Set Account a User model
+AUTH_USER_MODEL = 'accounts.Account'

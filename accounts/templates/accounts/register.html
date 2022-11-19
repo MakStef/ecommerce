@@ -1,0 +1,28 @@
+{% extends "accounts/base.html" %}
+{% load static sass_tags %}
+{% block title %}Register{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% sass_src 'accounts/styles/register.scss' %}">
+{% endblock head %}
+{% block body %}
+    <div class="wrapper column">
+        <main class="case-form column flex-center">
+            <h1 class="form-header">Register or <a class="settings-link" href="{% url 'accounts:login' %}">login in your account</a></h1>
+            <form class="form form_login column flex-center" id="register-form" action="{% url 'accounts:register' %}" method="POST">
+                {% csrf_token %}
+                <input class="input_text" type="text" placeholder="Username" name="username" />
+                <input class="input input_email" type="email" placeholder="Email" name="email" 
+                pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9 -]+\.a-z{2-6}" />
+                <input class="input_password" type="password" placeholder="Your Password" name="password_1" 
+                pattern="[a-zA-Z0-9_+&.,-]{8,50}" />
+                <input class="input_password" type="password" placeholder="Confirm Password" name="password_2" />
+            {% if failed %}
+                <h1 class="hint">Please, try again. Maybe you mistyped your password.</h1>
+            {% endif %}
+                <input class="pushable pointer" type="submit" value="Register" name="register" autocomplete="new-password" />
+            </form>
+        </main>
+    </div>
+    <script src="{% static 'store/scripts/base.js' %}"></script>
+    <script src="{% static 'accounts/scripts/register.js' %}"></script>
+{% endblock body %}

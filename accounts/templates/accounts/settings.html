@@ -1,0 +1,81 @@
+{% extends 'accounts/base.html' %}
+{% load static sass_tags %}
+{% block title %}Settings{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% sass_src 'accounts/styles/settings.scss' %}">
+{% endblock head %}
+{% block body %}
+    <div class="wrapper column">
+        <main class="case-form column flex-center">
+            <h1 class="form-header">Account Settings</h1>
+            <ul class="options">
+                {% if request.user.is_authenticated %}
+                    <li class="option">
+                        <a href="{% url 'accounts:change_password' %}" class="option__container column flex-center pushable">
+                            <div class="corner-border"></div>
+                            <div class="side-border"></div>
+                            <span>Change password</span>
+                        </a>
+                    </li>
+                    <li class="option">
+                        <button class="option__container_forgot-password option__container column flex-center pushable">
+                            <div class="corner-border"></div>
+                            <div class="side-border"></div>
+                            <span>Forgot password</span>
+                        </button>
+                    </li>
+                    <li class="option">
+                        <a href="{% url 'accounts:change_email' %}" class="option__container column flex-center pushable">
+                            <div class="corner-border"></div>
+                            <div class="side-border"></div>
+                            <span>Change email</span>
+                        </a>
+                    </li>
+                    <li class="option">
+                        <a href="#" class="option__container column flex-center pushable">
+                            <div class="corner-border"></div>
+                            <div class="side-border"></div>
+                            <span>Purchase history</span>
+                        </a>
+                    </li>
+                    <li class="option">
+                        <a href="#" class="option__container column flex-center pushable">
+                            <div class="corner-border"></div>
+                            <div class="side-border"></div>
+                            <span>Edit profile</span>
+                        </a>
+                    </li>
+                    <li class="option">
+                        <a href="{% url 'accounts:logout' %}" class="option__container column flex-center pushable">
+                            <div class="corner-border"></div>
+                            <div class="side-border"></div>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                    <li class="option">
+                        <a href="{% url 'accounts:delete' %}" class="option__container column flex-center pushable">
+                            <div class="corner-border"></div>
+                            <div class="side-border"></div>
+                            <span>Delete account</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="option">
+                        <a href="{% url 'accounts:login' %}" class="option__container column flex-center pushable">
+                            <div class="corner-border"></div>
+                            <div class="side-border"></div>
+                            <span>Login</span>
+                        </a>
+                    </li>
+                    <li class="option">
+                        <a href="{% url 'accounts:register' %}" class="option__container column flex-center pushable">
+                            <div class="corner-border"></div>
+                            <div class="side-border"></div>
+                            <span>Register</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </main>
+    </div>
+{% endblock body %}

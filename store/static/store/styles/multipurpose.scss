@@ -74,6 +74,9 @@
 .hidden {
     visibility: hidden;
 }
+.none {
+    display: none;
+}
 .link {
     position: relative;
     color: inherit;
@@ -132,6 +135,10 @@
 .row {
     display: flex;
     flex-direction: row;
+}
+.flex-center {
+    justify-content: center;
+    align-items: center;
 }
 .circle {
     border-radius: 50%;

@@ -1,0 +1,31 @@
+{% load static sass_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{% static 'store/images/icons/favicon.svg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% sass_src 'store/styles/main.scss' %}">
+    {% block head %}
+    {% endblock head %}
+</head>
+<body>
+    <a href="{% url 'store:homepage' %}" class="home-link link row">
+        <img src="{% static 'store/images/icons/arrow-icon.svg' %}" alt="Arrow icon"> 
+        <ins>Go home</ins>
+        <img src="{% static 'store/images/icons/arrow-icon.svg' %}" alt="Arrow icon"> 
+    </a>
+    {% block body %}
+    {% endblock body %}
+    <div class="load column">
+        <div class="load__container">
+            <div class="load__ring_orange load__ring circle"></div>
+            <div class="load__ring_black load__ring circle"></div>
+            <div class="load__ring_green load__ring circle"></div>
+        </div> 
+    </div>
+    {{request.user.is_authenticated|json_script:'authenticated'}}
+    <script type="module" src="{% static 'store/scripts/base.js' %}"></script>
+</body>
+</html>

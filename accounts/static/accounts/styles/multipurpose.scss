@@ -1,0 +1,120 @@
+@function rem($value) {
+    $remValue: ($value / 16) + rem;
+    @return $remValue;
+}
+
+.case-form {
+    width: 100%;
+    font-size: rem(16);
+    gap: rem(24);
+    padding: rem(56) clamp(rem(6), 5%, rem(42));
+    h1 {
+        vertical-align: bottom;
+    }
+    .settings-link {
+        transition: 0.2s;
+        
+        &:hover {
+            font-size: 1.15em;
+            margin-inline-start: rem(4);
+        }
+    }
+    @media (max-width: 425px) {
+        font-size: rem(14);
+        
+    }
+}
+.form {
+    width: clamp(rem(300), 75%, rem(380));
+    padding: rem(46);
+    gap: rem(28);
+    border-radius: rem(32);
+    border: 3px solid var(--orange-color);
+    
+    input {
+        font-size: inherit;
+        padding: rem(8) rem(16);
+        border-radius: rem(8);
+        background-color: rgba(#000, 0.05);
+        transition: box-shadow 0.2s;
+
+        &[type="submit"] {
+            display: inline-block;
+            padding: rem(8) rem(32);
+            background-color: var(--orange-color);
+            cursor: pointer;
+        }
+        &:hover {
+
+            box-shadow: 0 0 rem(14) rgba(#000, 0.4);
+        }
+        &:focus {
+            box-shadow: 0 0 rem(14) rgba(#000, 0.6);
+        }
+    }
+
+    @media (min-width: 769px) {
+        aspect-ratio: 1/1.05;
+    }
+}
+.form-header {
+    font-size: rem(24);
+}
+.hint {
+    font-size: rem(12);
+    margin-inline-end: auto;
+}
+.home-link {
+    position: absolute;
+    font-size: 1.25em;
+    gap: rem(4);
+    margin: rem(8);
+    padding: rem(6) rem(12);
+    align-items: center;
+    left: 0;
+    top: 0;
+    background-color: #fff;
+    border-radius: 4px;
+    
+    ins {
+        padding: rem(6);
+        text-decoration: none;
+    }
+    img {
+        transition: all 0.2s;
+        scale: -1 1;
+        &:first-of-type {
+            transition-delay: 0.2s;
+        }
+        &:last-of-type {
+            transition-delay: 0;
+            translate: rem(8) 0;
+            opacity: 0;
+        }
+    }
+    &:hover {
+        img {
+            &:first-of-type {
+                scale: -0.75 0.75;
+                translate: rem(-8) 0;
+                opacity: 0;
+            }
+            &:last-of-type {
+                transition: all 0.2s;
+                transition-delay: 0.2s;
+
+                scale: -0.75 0.75;
+                translate: 0 0;
+                opacity: 1;
+            }
+        }
+    &::after {
+        width: 85%;
+    }
+}
+&::after {
+        left: 50%;
+        translate: -50% 0;
+        transition: 0.8s;
+    }
+}
