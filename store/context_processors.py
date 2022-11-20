@@ -1,7 +1,7 @@
-from .models import Supercategory
+from .models import ProductSupercategory
 
 
 def get_supercategories_to_context(request):
     return {
-        'supercategories': Supercategory.objects.all(),
+        'supercategories': ProductSupercategory.objects.all(),
     }

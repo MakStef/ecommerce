@@ -46,19 +46,28 @@
                         </a>
                     </li>
                     <li class="option">
-                        <a href="{% url 'accounts:logout' %}" class="option__container column flex-center pushable">
+                        <a href="{% url 'accounts:logout' %}" class="option__container_logout option__container column flex-center pushable">
                             <div class="corner-border"></div>
                             <div class="side-border"></div>
                             <span>Logout</span>
                         </a>
                     </li>
                     <li class="option">
-                        <a href="{% url 'accounts:delete' %}" class="option__container column flex-center pushable">
+                        <a href="{% url 'accounts:delete' %}" class="option__container_delete option__container column flex-center pushable">
                             <div class="corner-border"></div>
                             <div class="side-border"></div>
                             <span>Delete account</span>
                         </a>
                     </li>
+                {% if request.user.is_staff %}
+                    <li class="option">
+                        <a href="/admin/" class="option__container_admin option__container column flex-center pushable">
+                            <div class="corner-border"></div>
+                            <div class="side-border"></div>
+                            <span>Open Controll Panel</span>
+                        </a>
+                    </li>
+                {% endif %}
                 {% else %}
                     <li class="option">
                         <a href="{% url 'accounts:login' %}" class="option__container column flex-center pushable">
