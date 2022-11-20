@@ -12,6 +12,6 @@ urlpatterns = [
     path('', HomepageView.as_view(), name='homepage'),
     path('filter/<slug:cat_slug>', FilterView.as_view(), name='filter'),
     path('search/<str:wanted>', SearchView.as_view(), name='search'),
-    path('product/<slug:product_slug>', SearchView.as_view(), name='search'),
+    path('product/<slug:product_slug>', SearchView.as_view(), name='product'),
     path('newsletters/', NewslettersView.as_view(), name='newsletter'),
 ]

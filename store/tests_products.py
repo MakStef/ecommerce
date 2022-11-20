@@ -31,11 +31,11 @@ class ProductTestCase(TestCase):
         self.user.favourite.toggle(self.product)
         self.user.favourite.toggle(self.product)
 
-        # def test_toggle_cart(self):
-        #     cart.toggle(self.user.cart, self.product)
-        #     cart.toggle(self.user.cart, self.product)
+    def test_toggle_cart(self):
+        cart.toggle(self.user.cart, self.product)
+        cart.toggle(self.user.cart, self.product)
 
-        # def test_rate(self):
-        #     rating = 2
-        #     self.product.rate(rating)
-        #     self.product.get_rating()
+    def test_rating(self):
+        rating = 2
+        self.product.rate(rating)
+        self.product.get_rating()

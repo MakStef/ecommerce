@@ -20,12 +20,14 @@ class Account(AbstractBaseUser, PermissionsMixin):
         Favourite,
         verbose_name=("Favourite products"),
         on_delete=models.CASCADE,
+        unique=True,
         default=Favourite.get_new,
     )
     cart = models.OneToOneField(
         Cart,
         verbose_name=("Products in cart"),
         on_delete=models.CASCADE,
+        unique=True,
         default=Cart.get_new,
     )
 

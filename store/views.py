@@ -46,27 +46,27 @@ class ProductActionView(View):
     def get(self, request, *args, **kwargs):
         if request.GET.get('action') and (request.GET.get('value') or request.GET.get('product_id')):
             action = request.GET.get('action')
-            if action == 'toggle_fav':
-                fav.toggle(
-                    fav=request.user.favourite,
-                    product=get_object_or_404(
-                        Product, pk=request.GET.get('product_id'))
-                )
-            elif action == 'toggle_cart':
-                cart.toggle(
-                    fav=request.user.favourite,
-                    product=get_object_or_404(
-                        Product, pk=request.GET.get('product_id'))
-                )
-            elif action == 'rate':
-                product = get_object_or_404(
+        if action == 'toggle_fav':
+            fav.toggle(
+                fav=request.user.favourite,
+                product=get_object_or_404(
                     Product, pk=request.GET.get('product_id'))
-                product.votes.create(
-                    user=request.user,
-                    value=request.GET.get('value'),
-                )
-            else:
-                print('Uncorrect action on', request.get_full_path())
+            )
+        elif action == 'toggle_cart':
+            cart.toggle(
+                fav=request.user.favourite,
+                product=get_object_or_404(
+                    Product, pk=request.GET.get('product_id'))
+            )
+        elif action == 'rate':
+            product = get_object_or_404(
+                Product, pk=request.GET.get('product_id'))
+            product.votes.create(
+                user=request.user,
+                value=request.GET.get('value'),
+            )
+        else:
+            print('Uncorrect action on', request.get_full_path())
         return redirect('store:homepage')
 
 

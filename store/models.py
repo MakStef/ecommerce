@@ -10,7 +10,7 @@ from abc import ABCMeta, abstractmethod
 User = settings.AUTH_USER_MODEL
 
 
-# Create metamodel for future abstractmethods handling
+# Create new Meta class and ABCmodel for future abstractmethods handling
 class AbstractModelMeta(ABCMeta, type(models.Model)):
     pass
 
@@ -81,19 +81,20 @@ class Product(models.Model):
     )
     price = models.FloatField(verbose_name="Product price")
     subcategory = models.ForeignKey(
-        to='Subcategory',
+        to='ProductSubcategory',
         on_delete=models.CASCADE,
         editable=True,
+        null=True,
     )
     category = models.ForeignKey(
-        to='Category',
+        to='ProductCategory',
         on_delete=models.CASCADE,
         editable=False,
         blank=True,
         default=None
     )
     supercategory = models.ForeignKey(
-        to='Category',
+        to='ProductSuperCategory',
         on_delete=models.CASCADE,
         editable=False,
         blank=True,
@@ -150,36 +151,47 @@ class AbstractCategory(ABCModel):
         ordering = ['title']
 
     def save(self, *args, **kwargs):
-        """ On save creates slug and adds to it "_" + 3 letters of it's category title. """
+        """ Save and create slug. """
 
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
+        """ Get absolute url to filter by category """
         return reverse('store:filter', args=(self.slug,))
 
     @abstractmethod
     def get_products(self):
-        Product.objects.filter(category_id=self.id)
+        """ Get products for this category """
+        return Product.objects.filter(abscat_id=self.id)
 
     def __str__(self):
         return self.title
 
 
-class Subcategory(AbstractCategory):
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+class ProductSubcategory(AbstractCategory):
+    category = models.ForeignKey('ProductCategory', on_delete=models.CASCADE)
+
+    def get_products(self):
+        return Product.objects.filter(subcategory_id=self.id)
 
 
-class Category(AbstractCategory):
+class ProductCategory(AbstractCategory):
     supercategory = models.ForeignKey(
-        'Supercategory',
+        'ProductSupercategory',
         on_delete=models.CASCADE
     )
 
     def get_subcategories(self):
-        return Subcategory.objects.filter(category_id=self.id)
+        return ProductSubcategory.objects.filter(category_id=self.id)
+
+    def get_products(self):
+        return Product.objects.filter(category_id=self.id)
 
 
-class Supercategory(AbstractCategory):
+class ProductSupercategory(AbstractCategory):
     def get_categories(self):
-        return Category.objects.filter(supercategory_id=self.id)
+        return ProductCategory.objects.filter(supercategory_id=self.id)
+
+    def get_products(self):
+        return Product.objects.filter(supercategory_id=self.id)

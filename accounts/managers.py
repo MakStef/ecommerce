@@ -9,9 +9,7 @@ class AccountManager(BaseUserManager):
     """
 
     def create_user(self, username, email, password=None, **extra_fields):
-        """
-        Create user with unique favourite and cart
-        """
+        """ Create user with unique favourite and cart """
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)
