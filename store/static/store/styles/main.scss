@@ -55,7 +55,7 @@ body {
     transition-delay: 0s, 0.2s;
 }
 .content {
-    @include adaptiv-value(width, 1760, 290, 1);
+    width: 100%;
     flex: 1 0 auto;
     display: flex;
     flex-direction: column;

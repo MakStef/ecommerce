@@ -1,7 +1,3 @@
-window.onload = () => {
-    document.querySelector('.load').classList.add('invisible', 'hidden');
-    document.querySelector('.wrapper').classList.remove('invisible');
-}
 export const authenticated = JSON.parse(document.querySelector("#authenticated")?.textContent);
 export const changeStar = (image, type = 'fill') => {
     let path = '/static/store/images/icons/';

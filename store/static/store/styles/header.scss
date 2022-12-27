@@ -1,11 +1,8 @@
 .page-header {
     width: 100%;
     &__floor {
-        @include adaptiv-value(padding-top, 20, 16, 1);
-        @include adaptiv-value(padding-bottom, 20, 16, 1);
-        @include adaptiv-value(padding-left, 128, 20, 1);
-        @include adaptiv-value(padding-right, 128, 20, 1);
         height: fit-content;
+        @include default-padding();
 
         &_black {
             background-color: var(--secondary-color);
@@ -18,6 +15,7 @@
             }
         }
         &_cats {
+            z-index: 10;
             position: relative;
         }
     }
@@ -121,7 +119,7 @@
                 &:hover {
                     a {
                         &::before {
-                            animation: shake 0.85s infinite ease-out;
+                            animation: shakeY 0.85s infinite ease-out;
                         }
                     }
                 }
@@ -202,8 +200,10 @@
         gap: rem(24);
         flex-wrap: wrap;
         flex: 1 1 auto;
-        &:has([open]) > .page-header__category:has(details:not([open])) {
-            visibility: hidden;
+        z-index: 11;
+
+        &:has([open]) .page-header__supercategory-details:not(:is([open])) {
+            pointer-events: none;
         }
     }
     &__supercategory {
@@ -259,13 +259,19 @@
     &__categories {
         --initial-opacity: 0.3;
         --final-opacity: 1;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        @include default-padding();
+        background: var(--secondary-color);
         width: 100%;
         padding: rem(24) 0;
         flex-wrap: wrap;
         font-size: rem(16);
+        z-index: 12;
     }
     &__category {
-        flex: 1 1 auto;
+        flex: 1 1 0;
         & > *:not(hr) {
             padding: 0 rem(24) 0 0;
         }

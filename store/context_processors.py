@@ -1,7 +1,7 @@
-from .models import ProductSupercategory
+from .models import Supercategory
 
 
 def get_supercategories_to_context(request):
     return {
-        'supercategories': ProductSupercategory.objects.all(),
+        'supercategories': Supercategory.objects.all().order_by('id'),
     }

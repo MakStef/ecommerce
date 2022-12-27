@@ -1,10 +1,13 @@
 from django.db import models
+from django.db.models import Q
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils import timezone
 
 from abc import ABCMeta, abstractmethod
+import uuid
 
 
 User = settings.AUTH_USER_MODEL
@@ -22,176 +25,178 @@ class ABCModel(models.Model):
         abstract = True
 
 
-# Managers
-class ProductContainersManager(models.Manager):
-    def toggle_product(self, product):
-        self.products.remove(product) if self.products.contains(
-            product) else self.products.add(product)
-
-
 # Models
 class AbstractContainer(ABCModel):
-
+    """ Abstract class to define the get_new container function for ForeignKey fields default. """
     @classmethod
     def get_new(cls):
         return cls.objects.create().id
 
 
-class Favourite(AbstractContainer):
+
+class AbstractProductContainer(AbstractContainer):
+    """ Abstract container for products. """
+    products = models.ManyToManyField('Product')
+
+    def toggle(self, product):
+        if self.products.all().contains(product):
+            self.products.remove(product)
+            return False
+        else:
+            self.products.add(product)
+            return True
+
+class Favourite(AbstractProductContainer):
     """ Product container for saving products. """
-    products = models.ManyToManyField('Product')
-
-    objects = ProductContainersManager()
+    pass
 
 
-class Cart(AbstractContainer):
+class Cart(AbstractProductContainer):
     """ Product container for purchasing products. """
-    products = models.ManyToManyField('Product')
+    pass
 
-    objects = ProductContainersManager()
-
-
+ 
 class Vote(models.Model):
     """ User vote for a product. """
     user = models.ForeignKey(
         to=User,
         on_delete=models.CASCADE,
-        editable=False
+        editable=False,
+        default=None,
     )
     value = models.FloatField(
         editable=False,
         validators=[
+            MinValueValidator(1),
             MaxValueValidator(5),
-            MinValueValidator(1)
         ],
     )
 
 
 class Product(models.Model):
-    """ Product model. *title: str, *image: file, *description: str, *price: float  """
+    """ 
+        Product model. title: str, image: file, description: str, height,width,length: int, material: str,
+        price: float, discount: int(1...100), subcat: Subcategory, cat: Category, supercat: Supercategory.
+        Has votes and defines rate.
+    """
     title = models.CharField(verbose_name="Product title", max_length=255)
-    image = models.ImageField(verbose_name="Product image")
+    image = models.ImageField(verbose_name="Product image") 
     description = models.TextField(verbose_name="Product description")
     height = models.IntegerField(verbose_name="Product height")
     width = models.IntegerField(verbose_name="Product width")
     length = models.IntegerField(verbose_name="Product length")
-    material = models.CharField(
-        verbose_name="Product material",
-        max_length=255
-    )
-    price = models.FloatField(verbose_name="Product price")
-    subcategory = models.ForeignKey(
-        to='ProductSubcategory',
-        on_delete=models.CASCADE,
-        editable=True,
-        null=True,
-    )
-    category = models.ForeignKey(
-        to='ProductCategory',
-        on_delete=models.CASCADE,
-        editable=False,
-        blank=True,
-        default=None
-    )
-    supercategory = models.ForeignKey(
-        to='ProductSuperCategory',
-        on_delete=models.CASCADE,
-        editable=False,
-        blank=True,
-        default=None
+    material = models.CharField(verbose_name="Product material", max_length=255)
+    price = models.FloatField(verbose_name="Product price", validators=[MinValueValidator(0)])
+    discount = models.IntegerField(
+        verbose_name="Discount percent",
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100),
+        ]
     )
 
+    subcat = models.ForeignKey('Subcategory', on_delete=models.CASCADE, default=None)
+    cat = models.ForeignKey('Category', on_delete=models.CASCADE, editable=False, null=True, default=None)
+    supercat = models.ForeignKey('Supercategory', on_delete=models.CASCADE, editable=False, null=True, default=None)
+
+    created_at = models.DateTimeField(auto_now=True, auto_created=True)
+    sold = models.PositiveIntegerField(editable=False, default=0)
     votes = models.ManyToManyField('Vote')
-    slug = models.SlugField(unique=True, editable=False)
-
-    def rate(self, rating: int):
-        try:
-            vote, is_new = self.votes.get_or_create(
-                user=self.user,
-                defaults={
-                    'user': self.user,
-                    'value': rating,
-                }
-            )
-            if not is_new:
-                vote.value = rating
-
-            vote.save()
-            return True
-        except:
-            return False
-
-    def get_rating(self):
-        """ Returns the rating of product. \n\nPrecision of the fraction is two numbers """
-
-        votes = self.votes.all().values_list('value', flat=True)
-        return float(f'{sum(votes) / len(votes):.2f}') if len(votes) > 0 else 0
-
-    def save(self, *args, **kwargs):
-        """ On save creates slug and adds to it "_" + 3 letters of it's category title. """
-
-        self.slug = f'{slugify(self.title)}_{self.category.title[:3]}'
-
-        self.category = self.subcategory.category
-        self.supercategory = self.category.supercategory
-
-        super().save(*args, **kwargs)
-
-
-class AbstractCategory(ABCModel):
-    """ 
-        Categories ancestor with only fields of title and slug. Creates slug on save,
-        orders categories by title, return title as representative, gets absolute url,
-        defines get_products abstractmethod.
-    """
-    title = models.CharField(max_length=50)
-    slug = models.SlugField(unique=True, default=None, editable=False, )
+    slug = models.SlugField(unique=True, default=uuid.uuid4, editable=False,)
 
     class Meta:
-        ordering = ['title']
+        ordering = ['created_at']
 
     def save(self, *args, **kwargs):
-        """ Save and create slug. """
+        self.cat = self.subcat.cat
+        self.supercat = self.cat.supercat
 
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        """ Get absolute url to filter by category """
-        return reverse('store:filter', args=(self.slug,))
+    def rate(self, rating: int, user: User):
+        vote, is_new = self.votes.get_or_create(
+            user=user,
+            defaults={
+                'user': user,
+                'value': rating,
+            }
+        )
+        if not is_new:
+            vote.value = rating
+
+        vote.save()
+        return vote.value
+
+    def get_rating(self):
+        """ Returns the rating of product. \n\nPrecision of the fraction is two numbers """
+        votes = self.votes.all().values_list('value', flat=True)
+        return float(f'{sum(votes) / len(votes):.2f}') if len(votes) > 0 else 0
+
+
+class AbstractCategory(ABCModel):
+    """ 
+        Categories ancestor with fields of title, slug and created_at timestamp. 
+        Creates slug on save, orders categories by created_at, 
+        return title as representative, defines get_absolute_url.
+    """
+    title = models.CharField(max_length=50)
+    slug = models.SlugField(unique=True, default=uuid.uuid4, editable=False,)
+    created_at = models.DateTimeField(null=True, editable=False)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def save(self, *args, **kwargs):
+        """ Create slug, created_at and saves object """
+        if not self.id:
+            created_at = timezone.now()
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     @abstractmethod
-    def get_products(self):
-        """ Get products for this category """
-        return Product.objects.filter(abscat_id=self.id)
+    def get_products(self, ordering:str=None):
+        """ Get Products QuerySet filtered by category and ordered by ordering """
+        return Product.objects.filter(abscat_id=self.id).order_by(ordering if ordering else self._meta.ordering[0])
+
+    @abstractmethod
+    def get_absolute_url(self):
+        """ Get absolute url to filter by category """
+        return f"{reverse('store:products')}?abscat='{self.slug}'"
 
     def __str__(self):
         return self.title
 
 
-class ProductSubcategory(AbstractCategory):
-    category = models.ForeignKey('ProductCategory', on_delete=models.CASCADE)
+class Subcategory(AbstractCategory):
+    cat = models.ForeignKey('Category', models.CASCADE)
 
-    def get_products(self):
-        return Product.objects.filter(subcategory_id=self.id)
+    def get_absolute_url(self):
+        return f"{reverse('store:products')}?subcat={self.slug}"
+
+    def get_products(self, ordering:str=None):
+        return Product.objects.filter(subcat_id=self.id).order_by(ordering if ordering else self._meta.ordering[0])
+
+class Category(AbstractCategory):
+    supercat = models.ForeignKey('Supercategory', models.CASCADE)
+
+    def get_absolute_url(self):
+        return f"{reverse('store:products')}?cat={self.slug}"
+
+    def get_products(self, ordering:str=None):
+        return Product.objects.filter(cat_id=self.id).order_by(ordering if ordering else self._meta.ordering[0])
+
+    def get_subcats(self, ordering:str=None):
+        return Subcategory.objects.filter(cat_id=self.id).order_by(ordering if ordering else self._meta.ordering[0])
 
 
-class ProductCategory(AbstractCategory):
-    supercategory = models.ForeignKey(
-        'ProductSupercategory',
-        on_delete=models.CASCADE
-    )
+class Supercategory(AbstractCategory):
 
-    def get_subcategories(self):
-        return ProductSubcategory.objects.filter(category_id=self.id)
+    def get_products(self, ordering:str=None):
+        return Product.objects.filter(supercat_id=self.id).order_by(ordering if ordering else self._meta.ordering[0])
 
-    def get_products(self):
-        return Product.objects.filter(category_id=self.id)
-
-
-class ProductSupercategory(AbstractCategory):
-    def get_categories(self):
-        return ProductCategory.objects.filter(supercategory_id=self.id)
-
-    def get_products(self):
-        return Product.objects.filter(supercategory_id=self.id)
+    def get_cats(self, ordering:str=None):
+        return Category.objects.filter(supercat_id=self.id).order_by(ordering if ordering else self._meta.ordering[0])
+    
+    def get_absolute_url(self):
+        return f"{reverse('store:products')}?supcat={self.slug}"

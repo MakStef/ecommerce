@@ -29,7 +29,12 @@
         );
     }
 }
-
+@mixin default-padding() {
+    @include adaptiv-value(padding-top, 20, 16, 1);
+    @include adaptiv-value(padding-bottom, 20, 16, 1);
+    @include adaptiv-value(padding-left, 128, 20, 1);
+    @include adaptiv-value(padding-right, 128, 20, 1);
+}
 // ================= Functions =================
 @function rem($value) {
     $remValue: ($value / 16) + rem;
@@ -37,6 +42,33 @@
 }
 
 // ================= Styles =================
+
+// Modifier
+.bg-white {
+    background: #fff;
+}
+.bg-black {
+    background: #000;
+}
+.orange-color {
+    color: var(--orange-color);
+}
+.main-color {
+    color: var(--main-color);
+}
+.secondary-color {
+    color: var(--secondary-color);
+}
+.invisible {
+    opacity: 0;
+}
+.hidden {
+    visibility: hidden;
+}
+.none {
+    display: none;
+}
+
 // Elements
 .profile-icon {
     &_white {
@@ -64,18 +96,6 @@
     background-size: contain;
     width: clamp(rem(20), 100%, rem(48));
     aspect-ratio: 31/32;
-}
-.bg-white {
-    background: #fff;
-}
-.invisible {
-    opacity: 0;
-}
-.hidden {
-    visibility: hidden;
-}
-.none {
-    display: none;
 }
 .link {
     position: relative;
@@ -121,6 +141,9 @@
     &:hover {
         box-shadow: 0 4px 20px 0 rgba(var(--orange-color), 1);
     }
+    &_glow {
+        box-shadow: 0 4px 20px 0 var(--orange-color);
+    }
 }
 .pushable {
     transition: all 0.1s;
@@ -147,9 +170,10 @@
 
 // Blocks
 .product-card {
-    @include adaptiv-value(width, 375, 290, 1);
-    @include adaptiv-value(height, 600, 575, 1);
+    width: rem(280);
+    height: rem(450);
     color: $main-color;
+    box-shadow: 0 rem(4) rem(20) 0 rgba(#000, 0.15);
 
     &__inner {
         position: relative;
@@ -165,7 +189,7 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-        padding: rem(16) rem(36) rem(24) rem(36);
+        padding: rem(14) rem(28) rem(18) rem(28);
         background-color: inherit;
         height: 49.17%;
 
@@ -190,18 +214,18 @@
 
         &-upper {
             flex: 1 1 auto;
-            line-height: rem(34);
+            line-height: rem(26);
         }
         &-separator {
             flex: 0 0 1px;
             height: 1px;
             width: 100%;
-            margin: rem(20) 0;
+            margin: rem(16) 0;
             background-color: $main-color;
         }
         &-lower {
             flex: 1 1 auto;
-            gap: rem(24);
+            gap: rem(18);
         }
     }
     &__row {
@@ -211,7 +235,7 @@
         align-items: center;
 
         &_title {
-            font-size: rem(20);
+            font-size: rem(16);
             font-weight: 600;
 
             h2 {
@@ -219,22 +243,33 @@
             }
         }
         &_stats {
-            font-size: rem(16);
+            font-size: rem(12);
             color: #ababab;
         }
         &_feedback {
-            font-size: rem(16);
+            font-size: rem(12);
             color: #ababab;
         }
         &_composition {
             justify-content: flex-end;
             gap: rem(12);
 
+            .compare-btn {
+                height: rem(23);
+                img {
+                    height: 100%;
+                }
+            }
             .favourite-toggler {
                 cursor: default;
                 position: relative;
-                width: rem(28);
+                height: rem(21);
                 aspect-ratio: 28 /25;
+                
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
 
                 &.toggled {
                     .favourite-n {
@@ -271,13 +306,33 @@
         pointer-events: none;
 
         button.rate {
+            height: rem(16);
             pointer-events: visible;
+
+            img {
+                height: 100%;
+            }
         }
     }
     &__count {
     }
     &__price {
         margin-right: auto;
+    }
+    .btn-orange.pushable {
+        height: rem(38);
+        padding: rem(4);
+        font-size: rem(14);
+        gap: rem(8);
+    }
+}
+.products-slider {
+    .slider-wrapper {
+    }
+    .slider-slide {
+
+    }
+    .slider-pagination {
     }
 }
 .load {
@@ -331,7 +386,21 @@
         rotate: calc(var(--start-pos) + 360deg);
     }
 }
-@keyframes shake {
+@keyframes shakeX {
+    0% {
+        translate: var(--start-posX) var(--start-posY);
+    }
+    25% {
+        translate: calc(var(--start-posX) - 0.15rem) var(--start-posY);
+    }
+    75% {
+        translate: calc(var(--start-posX) + 0.45rem) var(--start-posY);
+    }
+    100% {
+        translate: var(--start-posX) var(--start-posY);
+    }
+}
+@keyframes shakeY {
     0% {
         translate: var(--start-posX) var(--start-posY);
     }

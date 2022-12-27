@@ -55,9 +55,21 @@
                             <button onclick="this.parentElement.classList.toggle('toggled');" class="favourite-y"><img src="{% static 'store/images/icons/favourite_toggled-icon.svg' %}" alt="favorite toggled - yes" class="bg-white"></button>
                         </div>
                     </div>
-                    <button class="btn-orange pushable">Add to the cart <img src="{% static 'store/images/icons/cart-icon.svg' %}" alt="cart-icon"></button>
+                    <button class="btn-orange pushable row flex-center">Add to the cart <img src="{% static 'store/images/icons/cart-icon.svg' %}" alt="cart-icon"></button>
                 </div>
             </div>
         </div>
     </div>
+</template>
+<template id="products-slider-template">
+    <div class="products-slider slider">
+        <div class="slider-wrapper">
+            <div class="slider-slide">
+                <div class="row">
+                    <!-- Product cards -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slider-pagination"></div>
 </template>

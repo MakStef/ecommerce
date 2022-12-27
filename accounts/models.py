@@ -6,7 +6,7 @@ from .managers import AccountManager
 
 
 # Create your models here.
-class Account(AbstractBaseUser, PermissionsMixin):
+class Account(AbstractBaseUser): # PermissionsMixin
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=254, unique=True)
 
@@ -14,7 +14,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['email',]
 
     favourite = models.OneToOneField(
         Favourite,

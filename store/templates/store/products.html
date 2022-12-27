@@ -1,0 +1,19 @@
+{% extends "store/base.html" %}
+{% load static sass_tags %}
+{% block title %}Filtering by {{category_name}}{% endblock title %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% sass_src 'store/styles/filter.scss' %}">
+{% endblock extra_head %}
+{% block body %}
+    <!-- Wrapper content -->
+    <div class="wrapper column">
+        {% include "store/header.html" %}
+        <main class="content">
+            h1.
+            
+        </main> 
+        {% include "store/footer.html" %}    
+        {{request.user.is_authenticated|json_script:'authenticated'}}
+        <script type="module" src="{% static 'store/scripts/base.js' %}"></script>
+    </div>
+{% endblock body %}

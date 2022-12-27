@@ -3,10 +3,7 @@
     height: fit-content;
     background-color: var(--secondary-color);
     color: var(--main-color);
-    @include adaptiv-value(padding-top, 76, 16, 1);
-    @include adaptiv-value(padding-bottom, 36, 16, 1);
-    @include adaptiv-value(padding-left, 128, 20, 1);
-    @include adaptiv-value(padding-right, 128, 20, 1);
+    @include default-padding();
 
     a {
         max-width: 20ch;

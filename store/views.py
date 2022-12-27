@@ -6,28 +6,38 @@ from django.shortcuts import (
 from django.views.generic import (
     View,
     TemplateView,
-
+    ListView,
+    DetailView,
 )
 from django.views.generic.base import (
     ContextMixin,
 )
 
 from store.utils import newsletter
-from store.models import (
-    Product
+from store.utils.utils import (
+    get_random_categories,
+    get_last_products,
+    products_to_values_list,
 )
+from store.models import (
+    Product,
+    Subcategory,
+    Category,
+    Supercategory,
+)
+
+import json
 
 # Mixins
 
 
 # Class Based Views
-class HomepageView(View, ContextMixin):
+class HomepageView(TemplateView, ContextMixin):
     template_name = "store/homepage.html"
     extra_context = {
+        'bestsellers': json.dumps(products_to_values_list(Product.objects.all().order_by('created_at')[:16])),
+        'brandnews': None,
     }
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
 
 
 class NewslettersView(View):
@@ -37,8 +47,6 @@ class NewslettersView(View):
                 newsletter.sign(request.GET.get('email'))
             elif request.GET.get('action') == 'unsign':
                 newsletter.unsign(request.GET.get('email'))
-            else:
-                print('Uncorrect action')
         return redirect('store:homepage')
 
 
@@ -70,15 +78,28 @@ class ProductActionView(View):
         return redirect('store:homepage')
 
 
-class ProductView(View):
+class ProductsView(ListView):
+    template_name = 'store/products.html'
+    context_object_name = 'products'
+    paginate_by = 40
+
+    def get_queryset(self):
+        cat = None
+        if self.kwargs.get('subcat_slug'):
+            cat = get_object_or_404(klass=Subcategory, slug=self.kwargs.get('subcat_slug'))
+        elif self.kwargs.get('cat_slug'):
+            cat = get_object_or_404(klass=Category, slug=self.kwargs.get('cat_slug'))
+        elif self.kwargs.get('supercat_slug'):
+            cat = get_object_or_404(klass=Supercategory, slug=self.kwargs.get('supercat_slug'))
+        if cat:
+            return cat.get_products(ordering=self.kwargs.get('order') if self.kwargs.get('order') else None)
+        return Product.objects.all() if not self.kwargs.get('order') else Product.objects.all().order_by(self.kwargs.get('order'))
+
+class ProductView(DetailView):
     pass
 
 
-class SearchView(View):
+class SearchView(ListView):
     pass
 
-
-class FilterView(View):
-    pass
-
-    # Function Based Views
+# Function Based Views

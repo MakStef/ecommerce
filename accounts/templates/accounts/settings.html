@@ -9,81 +9,81 @@
         <main class="case-form column flex-center">
             <h1 class="form-header">Account Settings</h1>
             <ul class="options">
-                {% if request.user.is_authenticated %}
-                    <li class="option">
-                        <a href="{% url 'accounts:change_password' %}" class="option__container column flex-center pushable">
-                            <div class="corner-border"></div>
-                            <div class="side-border"></div>
-                            <span>Change password</span>
-                        </a>
-                    </li>
-                    <li class="option">
-                        <button class="option__container_forgot-password option__container column flex-center pushable">
-                            <div class="corner-border"></div>
-                            <div class="side-border"></div>
-                            <span>Forgot password</span>
-                        </button>
-                    </li>
-                    <li class="option">
-                        <a href="{% url 'accounts:change_email' %}" class="option__container column flex-center pushable">
-                            <div class="corner-border"></div>
-                            <div class="side-border"></div>
-                            <span>Change email</span>
-                        </a>
-                    </li>
-                    <li class="option">
-                        <a href="#" class="option__container column flex-center pushable">
-                            <div class="corner-border"></div>
-                            <div class="side-border"></div>
-                            <span>Purchase history</span>
-                        </a>
-                    </li>
-                    <li class="option">
-                        <a href="#" class="option__container column flex-center pushable">
-                            <div class="corner-border"></div>
-                            <div class="side-border"></div>
-                            <span>Edit profile</span>
-                        </a>
-                    </li>
-                    <li class="option">
-                        <a href="{% url 'accounts:logout' %}" class="option__container_logout option__container column flex-center pushable">
-                            <div class="corner-border"></div>
-                            <div class="side-border"></div>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-                    <li class="option">
-                        <a href="{% url 'accounts:delete' %}" class="option__container_delete option__container column flex-center pushable">
-                            <div class="corner-border"></div>
-                            <div class="side-border"></div>
-                            <span>Delete account</span>
-                        </a>
-                    </li>
-                {% if request.user.is_staff %}
-                    <li class="option">
-                        <a href="/admin/" class="option__container_admin option__container column flex-center pushable">
-                            <div class="corner-border"></div>
-                            <div class="side-border"></div>
-                            <span>Open Controll Panel</span>
-                        </a>
-                    </li>
-                {% endif %}
-                {% else %}
-                    <li class="option">
-                        <a href="{% url 'accounts:login' %}" class="option__container column flex-center pushable">
-                            <div class="corner-border"></div>
-                            <div class="side-border"></div>
-                            <span>Login</span>
-                        </a>
-                    </li>
-                    <li class="option">
-                        <a href="{% url 'accounts:register' %}" class="option__container column flex-center pushable">
-                            <div class="corner-border"></div>
-                            <div class="side-border"></div>
-                            <span>Register</span>
-                        </a>
-                    </li>
-                {% endif %}
+            {% if request.user.is_authenticated %}
+                <li class="option">
+                    <a href="{% url 'accounts:change_password' %}" class="option__container column flex-center pushable">
+                        <div class="corner-border"></div>
+                        <div class="side-border"></div>
+                        <span>Change password</span>
+                    </a>
+                </li>
+                <li class="option">
+                    <button class="option__container_forgot-password expand option__container column flex-center pushable">
+                        <div class="corner-border"></div>
+                        <div class="side-border"></div>
+                        <span>Forgot password</span>
+                    </button>
+                </li>
+                <li class="option">
+                    <a href="{% url 'accounts:change_email' %}" class="option__container column flex-center pushable">
+                        <div class="corner-border"></div>
+                        <div class="side-border"></div>
+                        <span>Change email</span>
+                    </a>
+                </li>
+                <li class="option">
+                    <a href="#" class="option__container column flex-center pushable">
+                        <div class="corner-border"></div>
+                        <div class="side-border"></div>
+                        <span>Purchase history</span>
+                    </a>
+                </li>
+                <li class="option">
+                    <a href="#" class="option__container column flex-center pushable">
+                        <div class="corner-border"></div>
+                        <div class="side-border"></div>
+                        <span>Edit profile</span>
+                    </a>
+                </li>
+                <li class="option">
+                    <a href="{% url 'accounts:logout' %}" class="option__container_logout ease option__container column flex-center pushable">
+                        <div class="corner-border"></div>
+                        <div class="side-border"></div>
+                        <span>Logout</span>
+                    </a>
+                </li>
+                <li class="option">
+                    <a href="{% url 'accounts:delete' %}" class="option__container_delete ease option__container column flex-center pushable">
+                        <div class="corner-border"></div>
+                        <div class="side-border"></div>
+                        <span>Delete account</span>
+                    </a>
+                </li>
+            {% if request.user.is_staff %}
+                <li class="option">
+                    <a href="/admin/" class="option__container_admin ease option__container column flex-center pushable">
+                        <div class="corner-border"></div>
+                        <div class="side-border"></div>
+                        <span>Open Controll Panel</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% else %}
+                <li class="option">
+                    <a href="{% url 'accounts:login' %}" class="option__container column flex-center pushable">
+                        <div class="corner-border"></div>
+                        <div class="side-border"></div>
+                        <span>Login</span>
+                    </a>
+                </li>
+                <li class="option">
+                    <a href="{% url 'accounts:register' %}" class="option__container column flex-center pushable">
+                        <div class="corner-border"></div>
+                        <div class="side-border"></div>
+                        <span>Register</span>
+                    </a>
+                </li>
+            {% endif %}
             </ul>
         </main>
     </div>
