@@ -99,11 +99,12 @@ export function appendProductCard(container, product) {
         cardPrice = template.querySelector('.product-card__price h3');
     // Fill card's parts
     cardId.setAttribute('value', product['rating']);
-    cardImage.setAttribute('src', '/media/' + product['image_source']);
+    cardImage.parentElement.href = '/product/' + product['slug'];
+    (product['image_source'] != null) ? cardImage.setAttribute('src', '/media/' + product['image_source']) : cardImage.setAttribute('src', 'https://www.discountcutlery.net/assets/images/NewProductImages/FOX620B.jpg');
     cardTitle.innerText = product["title"];
     cardSize.innerText = product["size"];
     cardMaterials.innerText = product["materials"];
-    product['personal_rating'] ? cardPersonalRating.value = product['personal_rating'] : null
+    product['personal_rating'] ? cardPersonalRating.value = product['personal_rating'] : null;
     cardRateCount.innerText = product["rate_count"] + " votes";
     cardPrice.innerText = product["price"] + "$";
 

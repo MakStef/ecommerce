@@ -34,7 +34,7 @@ def products_to_values_list(products: QuerySet, user:User=None):
     for product in products:
         lst.append({
             'id' : product.pk,
-            'image' : product.image.url if product.image else 'https://www.guede-solingen.de/wp-content/uploads/2021/04/guede-theknife-jade--uai-1706x1280.jpg',
+            'image' : product.image.url if product.image else None,
             'title' : product.title,
             'size' : f'{product.height}x{product.width}x{product.length}',
             'materials': product.material,
@@ -42,6 +42,7 @@ def products_to_values_list(products: QuerySet, user:User=None):
             'personal_rating': product.votes.get(user_id=user_id).value if user and product.votes.filter(user_id=user.pk).exists() else None,
             'rate_count' : product.votes.all().count(),
             'price' : product.price if product.discount != 0 else product.price - (product.price * (product.discount / 100)),
+            'slug' : product.slug,
         })
 
     return lst

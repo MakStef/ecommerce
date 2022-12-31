@@ -35,8 +35,13 @@ import json
 class HomepageView(TemplateView, ContextMixin):
     template_name = "store/homepage.html"
     extra_context = {
-        'bestsellers': json.dumps(products_to_values_list(Product.objects.all().order_by('created_at')[:16])),
-        'brandnews': None,
+        'bestsellers': json.dumps(products_to_values_list(Product.objects.all().order_by('sold')[:16])),
+        'brandnews_1': json.dumps(products_to_values_list(Product.objects.all().order_by('created_at')[:9])),
+        'brandnews_2': json.dumps(products_to_values_list(Product.objects.all().order_by('created_at')[9:18])),
+        'discounted_1': json.dumps(products_to_values_list(Product.objects.all().order_by('discount')[:16])),
+        'discounted_2': json.dumps(products_to_values_list(Product.objects.all().order_by('discount')[16:32])),
+        'discounted_3': json.dumps(products_to_values_list(Product.objects.all().order_by('discount')[32:48])),
+        'discounted_4': json.dumps(products_to_values_list(Product.objects.all().order_by('discount')[48:64])),
     }
 
 
