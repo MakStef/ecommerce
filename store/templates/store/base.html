@@ -13,9 +13,6 @@
     {% endblock extra_head %}
 </head>
 <body>
-    {% block body %}
-        
-    {% endblock body %}
     <div class="load column">
         <div class="load__container">
             <div class="load__ring_orange load__ring circle"></div>
@@ -23,6 +20,9 @@
             <div class="load__ring_green load__ring circle"></div>
         </div> 
     </div>
+    {% block body %}
+        
+    {% endblock body %}
     <script src="{% static 'store/scripts/onload.js' %}"></script>
     {% include 'store/templates.html' %}
 </body>
