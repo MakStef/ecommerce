@@ -21,13 +21,16 @@
     }
     &__navigation {
         @include adaptiv-value(gap, 46, 28, 1);
+        width: 100%;
         margin: auto 0;
         flex-wrap: wrap;
         align-items: center;
 
         & > * {
-            flex: 1 1 auto;
-            width: max-content;
+            flex: 0 1 auto;
+
+        }
+        .link {
         }
     }
     &__personal-profile {

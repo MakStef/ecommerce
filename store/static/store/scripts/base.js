@@ -57,7 +57,6 @@ export const setStars = (rating, cardRating) => {
     }
 }
 export const rate = async (rating, cardRating, cardId) => {
-    console.log('rates', rating);
     if (authenticated === true) {
         await fetch('/product/rate', {
             method: 'POST',

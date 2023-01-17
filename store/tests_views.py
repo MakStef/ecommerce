@@ -10,9 +10,11 @@ from .models import (
 )
 
 class TestHomepageView(TestCase):
-    client = Client()
+    def test_homepage_response(self):
+        client = Client()
 
-    response = client.get(reverse('store:homepage'))
+        response = client.get(reverse('store:homepage'))
 
-    self.assertEqual(response.status_code, 200)
-    self.assertTemplateUsed(response, 'store/homepage.html')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'store/homepage.html')
+        

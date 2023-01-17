@@ -12,6 +12,8 @@ from django.views.generic import (
 from django.views.generic.base import (
     ContextMixin,
 )
+from django.contrib.auth.models import AnonymousUser
+from django.core.paginator import Paginator
 
 from store.utils import newsletter
 from store.utils.utils import (
@@ -26,6 +28,7 @@ from store.models import (
     Supercategory,
 )
 
+import api
 import json
 
 # Mixins
@@ -83,25 +86,59 @@ class ProductActionView(View):
         return redirect('store:homepage')
 
 
-class ProductsView(ListView):
+class ProductsView(ListView, ContextMixin):
     template_name = 'store/products.html'
     context_object_name = 'products'
-    paginate_by = 40
-
+    model = Product
+    paginate_by = 24
+    extra_context = {
+        'filter_cats': Category.objects.all()[:4],
+        'max_price': Product.objects.all().order_by('-price')[0].price,
+        'min_price': Product.objects.all().order_by('price')[0].price,
+    }
+    
     def get_queryset(self):
-        cat = None
-        if self.kwargs.get('subcat_slug'):
-            cat = get_object_or_404(klass=Subcategory, slug=self.kwargs.get('subcat_slug'))
-        elif self.kwargs.get('cat_slug'):
-            cat = get_object_or_404(klass=Category, slug=self.kwargs.get('cat_slug'))
-        elif self.kwargs.get('supercat_slug'):
-            cat = get_object_or_404(klass=Supercategory, slug=self.kwargs.get('supercat_slug'))
-        if cat:
-            return cat.get_products(ordering=self.kwargs.get('order') if self.kwargs.get('order') else None)
-        return Product.objects.all() if not self.kwargs.get('order') else Product.objects.all().order_by(self.kwargs.get('order'))
+        queryset = Product.objects.all()
+        request = self.request
+
+        if request.GET.get('subcategory_id'):
+            queryset = queryset.filter(subcat_id=request.GET.get('subcategory_id'))
+        elif request.GET.get('category_id'):
+            queryset = queryset.filter(cat_id=request.GET.get('category_id'))
+        elif request.GET.get('supercategory_id'):
+            queryset = queryset.filter(supercat_id=request.GET.get('supercategory_id'))
+        
+        if request.GET.get('ordering'):
+            queryset = queryset.order_by(request.GET.get('ordering'))
+        
+        if request.GET.get('count'):
+            lim = int(request.GET.get('count'))
+            queryset = queryset[:lim]
+
+        if request.GET.get('price_span'):
+            cheapest, expensiest = request.GET.get('price_span').split('_')
+            queryset = queryset.filter(price__lte=int(cheapest), price__gte=int(expensiest))
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('subcategory_id'):
+            self.extra_context.update({
+                'prods_cat': Subcategory.objects.get(id=int(request.GET.get('subcategory_id')))
+            })
+        elif request.GET.get('category_id'):
+            self.extra_context.update({
+                'prods_cat': Category.objects.get(id=int(request.GET.get('category_id')))
+            })
+        elif request.GET.get('supercategory_id'):
+            self.extra_context.update({
+                'prods_cat': Supercategory.objects.get(id=int(request.GET.get('supercategory_id')))
+            })
+        return super().get(request, *args, **kwargs)
+
 
 class ProductView(DetailView):
-    pass
+    template_name = "store/product.html"
+
 
 
 class SearchView(ListView):

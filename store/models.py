@@ -172,7 +172,7 @@ class Subcategory(AbstractCategory):
     cat = models.ForeignKey('Category', models.CASCADE)
 
     def get_absolute_url(self):
-        return f"{reverse('store:products')}?subcat={self.slug}"
+        return f"{reverse('store:products')}?subcategory_id={self.id}"
 
     def get_products(self, ordering:str=None):
         return Product.objects.filter(subcat_id=self.id).order_by(ordering if ordering else self._meta.ordering[0])
@@ -181,7 +181,7 @@ class Category(AbstractCategory):
     supercat = models.ForeignKey('Supercategory', models.CASCADE)
 
     def get_absolute_url(self):
-        return f"{reverse('store:products')}?cat={self.slug}"
+        return f"{reverse('store:products')}?category_id={self.id}"
 
     def get_products(self, ordering:str=None):
         return Product.objects.filter(cat_id=self.id).order_by(ordering if ordering else self._meta.ordering[0])
@@ -199,4 +199,4 @@ class Supercategory(AbstractCategory):
         return Category.objects.filter(supercat_id=self.id).order_by(ordering if ordering else self._meta.ordering[0])
     
     def get_absolute_url(self):
-        return f"{reverse('store:products')}?supcat={self.slug}"
+        return f"{reverse('store:products')}?supercategory_id={self.id}"

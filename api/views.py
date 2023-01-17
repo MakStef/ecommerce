@@ -26,6 +26,10 @@ def get_products(request):
         lim = int(request.GET.get('count'))
         queryset = queryset[:lim]
 
+    if request.GET.get('price_span'):
+        cheapest, expensiest = request.GET.get('price_span').split('_')
+        queryset = queryset.filter(price__lte=int(cheapest), price__gte=int(expensiest))
+
     data = products_to_values_list(queryset, request.user if request.user is not AnonymousUser else None)
     return JsonResponse(json.dumps(data), safe=False)
 

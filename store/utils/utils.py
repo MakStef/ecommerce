@@ -29,10 +29,7 @@ def get_last_products(cats: list, k:int=9):
     return cats_products
 
 def products_to_values_list(products: QuerySet, user:User=None):
-    lst = []
-
-    for product in products:
-        lst.append({
+    return list(map(lambda product: {
             'id' : product.pk,
             'image' : product.image.url if product.image else None,
             'title' : product.title,
@@ -43,6 +40,4 @@ def products_to_values_list(products: QuerySet, user:User=None):
             'rate_count' : product.votes.all().count(),
             'price' : product.price if product.discount != 0 else product.price - (product.price * (product.discount / 100)),
             'slug' : product.slug,
-        })
-
-    return lst
+        }, products))
